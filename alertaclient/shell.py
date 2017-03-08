@@ -520,7 +520,7 @@ class AlertCommand(object):
                         group=group,
                         environment=environment,
                         service=['Alerta'],
-                        severity='major',
+                        severity=args.severity,
                         value='{}'.format(since),
                         text='Heartbeat not received in {} seconds'.format(hb.timeout),
                         tags=tags,
@@ -534,7 +534,7 @@ class AlertCommand(object):
                         group=group,
                         environment=environment,
                         service=['Alerta'],
-                        severity='major',
+                        severity=args.severity,
                         value='{}ms'.format(latency),
                         text='Heartbeat took more than {}ms to be processed'.format(MAX_LATENCY),
                         tags=tags,
@@ -1450,6 +1450,11 @@ class AlertaShell(object):
             default=False,
             help='Delete all expired heartbeats',
             action='store_true'
+        )
+        parser_heartbeats.add_argument(
+            '--severity',
+            default=DEFAULT_HEARTBEAT_SEVERITY,
+            help='Set the severity for stale heartbeat alerts',
         )
         parser_heartbeats.set_defaults(func=cli.heartbeats)
 
